@@ -1,9 +1,10 @@
+import SliderBanner from "@/components/SliderBanner";
 
 
 export default function Home() {
   return (
     <div>
-      homepage
+      <SliderBanner />
     </div>
   );
 }
