@@ -31,7 +31,6 @@ const slides = [
 const SliderBanner = () => {
     const [current, setCurrent] = useState(0);
 
-    // Auto Slide
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrent((prev) => (prev + 1) % slides.length);
@@ -48,7 +47,7 @@ const SliderBanner = () => {
                     className={`absolute w-full h-full transition-opacity duration-1000 ${index === current ? "opacity-100 z-10" : "opacity-0"
                         }`}
                 >
-                    {/* IMAGE */}
+   
                     <Image
                         src={slide.image}
                         alt="banner"
@@ -57,7 +56,6 @@ const SliderBanner = () => {
                         className="object-cover"
                     />
 
-                    {/* OVERLAY */}
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4">
                         <div className="text-white max-w-2xl">
                             <h1 className="text-3xl md:text-5xl font-bold mb-4">
@@ -79,7 +77,6 @@ const SliderBanner = () => {
                 </div>
             ))}
 
-            {/* DOT INDICATOR */}
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-3 z-20">
                 {slides.map((_, i) => (
                     <button

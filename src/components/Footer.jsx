@@ -15,7 +15,6 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-6 py-14 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
 
-        {/* LOGO + ABOUT */}
         <div>
           <h2 className="text-2xl font-bold text-white mb-4">
             Tutors-Finder
@@ -27,7 +26,6 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* SERVICES */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-5">
             Learning Services
@@ -52,7 +50,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* CONTACT */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-5">
             Contact Information
@@ -78,7 +75,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* SOCIAL */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-5">
             Follow Us
@@ -112,7 +108,7 @@ const Footer = () => {
 
       </div>
 
-      {/* COPYRIGHT */}
+
       <div className="border-t border-gray-800 text-center py-5 text-sm text-gray-500">
         © {new Date().getFullYear()}{" "}
         <span className="text-white font-medium">Tutors-Finder</span>.

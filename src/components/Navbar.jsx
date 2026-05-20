@@ -15,9 +15,9 @@ export default function Navbar() {
 
     const navLinks = [
         { name: "Home", path: "/" },
-        { name: "Tutor", path: "/tutor" },
+        { name: "Tutors", path: "/tutor" },
         { name: "Add Tutor", path: "/add-tutor" },
-        { name: "My Tutor", path: "/my-tutor" },
+        { name: "My Tutors", path: "/my-tutor" },
         { name: "Booked Session", path: "/booked-session" },
     ];
 
@@ -31,7 +31,7 @@ export default function Navbar() {
 
                 <div className="flex items-center justify-between h-16">
 
-                    {/* LOGO */}
+
                     <Link href="/" className="flex items-center gap-2">
                         <div className="bg-blue-600 text-white px-2 py-1 rounded font-bold">
                             TF
@@ -41,7 +41,6 @@ export default function Navbar() {
                         </h1>
                     </Link>
 
-                    {/* DESKTOP CENTER MENU */}
                     <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 gap-6">
                         {navLinks.map((link) => (
                             <Link
@@ -54,10 +53,9 @@ export default function Navbar() {
                         ))}
                     </div>
 
-                    {/* RIGHT SIDE */}
                     <div className="flex items-center gap-3">
 
-                        {/* THEME TOGGLE */}
+
                         <button
                             onClick={() =>
                                 setTheme(isDark ? "light" : "dark")
@@ -67,7 +65,7 @@ export default function Navbar() {
                             {isDark ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
 
-                        {/* DESKTOP AUTH */}
+
                         <div className="hidden md:flex items-center gap-2">
                             <Link
                                 href="/login"
@@ -84,7 +82,7 @@ export default function Navbar() {
                             </Link>
                         </div>
 
-                        {/* MOBILE MENU BUTTON */}
+
                         <button
                             onClick={() => setOpen(!open)}
                             className="md:hidden text-gray-800 dark:text-white"
@@ -96,7 +94,6 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* MOBILE MENU */}
             {open && (
                 <div
                     className={`md:hidden shadow-lg border-t transition-colors
@@ -110,7 +107,7 @@ export default function Navbar() {
                                 href={link.path}
                                 onClick={() => setOpen(false)}
                                 className={`font-medium transition
-            ${isDark
+                                   ${isDark
                                         ? "text-gray-300 hover:text-blue-400"
                                         : "text-gray-700 hover:text-blue-600"
                                     }`}
@@ -119,11 +116,10 @@ export default function Navbar() {
                             </Link>
                         ))}
 
-                        {/* THEME TOGGLE */}
                         <button
                             onClick={() => setTheme(isDark ? "light" : "dark")}
                             className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition
-          ${isDark
+                               ${isDark
                                     ? "bg-gray-800 text-gray-200"
                                     : "bg-gray-100 text-gray-800"
                                 }`}
@@ -139,12 +135,11 @@ export default function Navbar() {
                             )}
                         </button>
 
-                        {/* LOGIN */}
                         <Link
                             href="/login"
                             onClick={() => setOpen(false)}
                             className={`px-4 py-2 rounded-lg text-center border transition
-          ${isDark
+                               ${isDark
                                     ? "border-gray-700 text-gray-200 hover:bg-gray-800"
                                     : "border-gray-300 text-gray-800 hover:bg-gray-100"
                                 }`}
@@ -152,7 +147,6 @@ export default function Navbar() {
                             Login
                         </Link>
 
-                        {/* REGISTER */}
                         <Link
                             href="/register"
                             onClick={() => setOpen(false)}
