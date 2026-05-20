@@ -59,7 +59,7 @@ function RegisterFormContent() {
                 icon: "success",
                 confirmButtonColor: "#4f46e5"
             });
-            router.push(`/login?redirect=${encodeURIComponent(redirectUrl)}`);
+
         } catch (error) {
             console.error(error);
             Swal.fire({

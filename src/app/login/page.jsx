@@ -36,7 +36,7 @@ function LoginFormContent() {
                 toast: true,
                 position: "top-end"
             });
-            router.push(redirectUrl);
+
         } catch (error) {
             console.error(error);
             Swal.fire({
