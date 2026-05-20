@@ -72,27 +72,14 @@ function RegisterFormContent() {
         }
     };
 
-    const handleGoogleLogin = async () => {
+    const handleSignInWithGoogle = async () => {
         try {
-            await signInWithGoogle();
-            Swal.fire({
-                title: "Welcome!",
-                text: "Google Authentication Successful",
-                icon: "success",
-                timer: 2000,
-                showConfirmButton: false,
-                toast: true,
-                position: "top-end"
+            await authClient.signIn.social({
+                provider: "google"
             });
-            router.push("/");
         } catch (error) {
-            console.error(error);
-            Swal.fire({
-                title: "Google Auth Failed",
-                text: error.message,
-                icon: "error",
-                confirmButtonColor: "#4f46e5"
-            });
+            console.error("Error signing in with Google:", error);
+            setError("Failed to sign in with Google");
         }
     };
 
@@ -208,7 +195,7 @@ function RegisterFormContent() {
 
                 {/* Google Sign-in */}
                 <button
-                    onClick={handleGoogleLogin}
+                    onClick={handleSignInWithGoogle}
                     className="w-full flex items-center justify-center gap-3 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-850 py-3 rounded-2xl transition font-semibold text-sm text-gray-700 dark:text-gray-300 shadow-sm"
                 >
                     <FaGoogle className="text-red-500" />
