@@ -14,7 +14,7 @@ export default function TutorsDetailsPage({ params }) {
 
         const fetchTutor = async () => {
             try {
-                const res = await fetch(`http://localhost:4000/tutors/${id}`, {
+                const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${id}`, {
                     cache: "no-store"
                 });
                 if (res.ok) {

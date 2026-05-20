@@ -35,7 +35,7 @@ export default function MyTutorsPage() {
         if (!user?.email) return;
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:4000/tutors?email=${encodeURIComponent(user.email)}`, {
+            const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors?email=${encodeURIComponent(user.email)}`, {
                 cache: "no-store"
             });
             if (res.ok) {
@@ -100,7 +100,7 @@ export default function MyTutorsPage() {
         };
 
         try {
-            const res = await fetch(`http://localhost:4000/tutors/${selectedTutor._id || selectedTutor.id}`, {
+            const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${selectedTutor._id || selectedTutor.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export default function MyTutorsPage() {
             if (result.isConfirmed) {
                 const token = localStorage.getItem("token");
                 try {
-                    const res = await fetch(`http://localhost:4000/tutors/${tutorId}`, {
+                    const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${tutorId}`, {
                         method: "DELETE",
                         headers: {
                             "authorization": `Bearer ${token}`

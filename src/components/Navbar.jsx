@@ -161,13 +161,29 @@ export default function Navbar() {
                             )}
                         </div>
 
-                        {/* Mobile Toggle Button */}
-                        <button
-                            onClick={() => setOpen(!open)}
-                            className="md:hidden p-2 text-gray-800 dark:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-                        >
-                            {open ? <X size={22} /> : <Menu size={22} />}
-                        </button>
+                        {/* Mobile Toggle Button / Profile Trigger */}
+                        {user ? (
+                            <button
+                                onClick={() => setOpen(!open)}
+                                className="md:hidden p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition outline-none"
+                            >
+                                <img
+                                    src={user.photoURL || "https://i.ibb.co/tPpV3k1/avatar.png"}
+                                    alt={user.displayName || "User"}
+                                    className="w-8 h-8 rounded-full object-cover ring-2 ring-indigo-500"
+                                    onError={(e) => {
+                                        e.target.src = "https://i.ibb.co/tPpV3k1/avatar.png";
+                                    }}
+                                />
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => setOpen(!open)}
+                                className="md:hidden p-2 text-gray-800 dark:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                {open ? <X size={22} /> : <Menu size={22} />}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

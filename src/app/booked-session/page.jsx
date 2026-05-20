@@ -17,7 +17,7 @@ export default function BookedSessionsPage() {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:4000/bookings?email=${encodeURIComponent(user.email)}`, {
+            const res = await fetch(`https://tutor-finder-project-server.vercel.app/bookings?email=${encodeURIComponent(user.email)}`, {
                 headers: {
                     "authorization": `Bearer ${token}`
                 },
@@ -59,7 +59,7 @@ export default function BookedSessionsPage() {
             if (result.isConfirmed) {
                 const token = localStorage.getItem("token");
                 try {
-                    const res = await fetch(`http://localhost:4000/bookings/${bookingId}`, {
+                    const res = await fetch(`https://tutor-finder-project-server.vercel.app/bookings/${bookingId}`, {
                         method: "PATCH",
                         headers: {
                             "Content-Type": "application/json",

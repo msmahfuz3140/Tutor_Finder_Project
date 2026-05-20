@@ -14,7 +14,7 @@ export default function Home() {
 
         const fetchTutors = async () => {
             try {
-                const res = await fetch("http://localhost:4000/tutors?limit=6", {
+                const res = await fetch("https://tutor-finder-project-server.vercel.app/tutors?limit=6", {
                     cache: "no-store",
                 });
                 const data = await res.json();

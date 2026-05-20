@@ -94,7 +94,7 @@ export default function TutorDetailsCard({ tutor, id }) {
                 bookingStatus: "pending"
             };
 
-            const res = await fetch("http://localhost:4000/bookings", {
+            const res = await fetch("https://tutor-finder-project-server.vercel.app/bookings", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

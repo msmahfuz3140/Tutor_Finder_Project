@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
 
         // Fetch JWT from backend and store in client
         try {
-          const response = await fetch("http://localhost:4000/jwt", {
+          const response = await fetch("https://tutor-finder-project-server.vercel.app/jwt", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"

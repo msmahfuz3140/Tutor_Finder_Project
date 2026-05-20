@@ -14,7 +14,7 @@ export default function TutorsPage() {
     const fetchTutors = async (searchVal = "", startVal = "", endVal = "") => {
         setLoading(true);
         try {
-            let url = `http://localhost:4000/tutors?`;
+            let url = `https://tutor-finder-project-server.vercel.app/tutors?`;
             const params = [];
             if (searchVal) params.push(`search=${encodeURIComponent(searchVal)}`);
             if (startVal) params.push(`startDate=${encodeURIComponent(startVal)}`);

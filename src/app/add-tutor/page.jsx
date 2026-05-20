@@ -61,7 +61,7 @@ export default function AddTutorPage() {
 
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:4000/tutors", {
+            const res = await fetch("https://tutor-finder-project-server.vercel.app/tutors", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
