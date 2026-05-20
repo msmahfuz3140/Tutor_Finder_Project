@@ -1,4 +1,4 @@
-"use client"
+
 import { Button, Select, FieldError, Input, Label, ListBox, TextArea, TextField, toast } from '@heroui/react';
 
 
@@ -24,7 +24,7 @@ const AddTutorPage = () => {
             });
 
             if (!res.ok) throw new Error("Failed");
- 
+
             await res.json();
 
             toast.success("Tutor added successfully ✅");

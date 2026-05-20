@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ImageOff, BookOpen, Video, Calendar, Banknote, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 
 const TutorCard = ({ tutor }) => {
 
@@ -71,15 +72,17 @@ const TutorCard = ({ tutor }) => {
 
             {/* BUTTON SECTION (FIXED & RESPONSIVE) */}
             <div className="p-5 pt-0 mt-auto">
-                <button
-                    className="w-full py-2.5 px-4 rounded-xl bg-gray-900 hover:bg-indigo-600 
+                <Link href={`/tutor/${tutor?._id || tutor?.id}`}>
+                    <button
+                        className="w-full py-2.5 px-4 rounded-xl bg-gray-900 hover:bg-indigo-600 
                     dark:bg-gray-800 dark:hover:bg-indigo-600 text-white text-sm font-medium
                     flex items-center justify-center gap-2 transition-all duration-300 shadow-sm
                     group-hover:shadow-indigo-200 dark:group-hover:shadow-none"
-                >
-                    <span>View Details</span>
-                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                    >
+                        <span>View Details</span>
+                        <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </button>
+                </Link>
             </div>
         </div>
     );
