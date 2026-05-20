@@ -52,12 +52,15 @@ function LoginFormContent() {
 
     const handleSignInWithGoogle = async () => {
         try {
-            await authClient.signIn.social({
-                provider: "google"
-            });
+            await signInWithGoogle();
         } catch (error) {
             console.error("Error signing in with Google:", error);
-            setError("Failed to sign in with Google");
+            Swal.fire({
+                title: "Error",
+                text: error.message || "Failed to sign in with Google",
+                icon: "error",
+                confirmButtonColor: "#4f46e5"
+            });
         }
     };
 
