@@ -1,244 +1,348 @@
+"use client";
 
-import { Button, Select, FieldError, Input, Label, ListBox, TextArea, TextField, toast } from '@heroui/react';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
+import PrivateRoute from "@/components/PrivateRoute";
+import Swal from "sweetalert2";
+import { FaUser, FaLink, FaBook, FaCalendar, FaClock, FaDollarSign, FaMapMarkerAlt, FaBriefcase, FaGraduationCap } from "react-icons/fa";
 
+export default function AddTutorPage() {
+    const { user } = useAuth();
+    const [tutorName, setTutorName] = useState("");
+    const [photoUrl, setPhotoUrl] = useState("");
+    const [subject, setSubject] = useState("");
+    const [teachingMode, setTeachingMode] = useState("");
+    const [availableDays, setAvailableDays] = useState("");
+    const [timeSlot, setTimeSlot] = useState("");
+    const [sessionStart, setSessionStart] = useState("");
+    const [totalSlot, setTotalSlot] = useState("");
+    const [hourlyFee, setHourlyFee] = useState("");
+    const [institutionExperience, setInstitutionExperience] = useState("");
+    const [location, setLocation] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-const AddTutorPage = () => {
+    useEffect(() => {
+        document.title = "Add Tutor | MediQueue";
+        if (user) {
+            setTutorName(user.displayName || "");
+        }
+    }, [user]);
 
-    const onSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const tutor = Object.fromEntries(formData.entries());
+        if (!subject || !teachingMode) {
+            Swal.fire({
+                title: "Validation Error",
+                text: "Please select a subject and teaching mode.",
+                icon: "warning",
+                confirmButtonColor: "#4f46e5"
+            });
+            return;
+        }
 
-        // ✅ Convert numbers
-        tutor.hourlyFee = Number(tutor.hourlyFee);
-        tutor.totalSlot = Number(tutor.totalSlot);
+        setIsSubmitting(true);
+
+        const tutorData = {
+            tutorName,
+            photoUrl,
+            subject,
+            teachingMode,
+            availableDays,
+            timeSlot,
+            sessionStart,
+            totalSlot: Number(totalSlot),
+            hourlyFee: Number(hourlyFee),
+            institutionExperience,
+            location,
+            creatorEmail: user?.email,
+            creatorName: user?.displayName || "Tutor"
+        };
 
         try {
+            const token = localStorage.getItem("token");
             const res = await fetch("http://localhost:4000/tutors", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(tutor),
+                body: JSON.stringify(tutorData)
             });
 
-            if (!res.ok) throw new Error("Failed");
+            const data = await res.json();
 
-            await res.json();
-
-            toast.success("Tutor added successfully ✅");
-
+            if (res.ok) {
+                Swal.fire({
+                    title: "Success",
+                    text: "Tutor profile added successfully!",
+                    icon: "success",
+                    confirmButtonColor: "#4f46e5"
+                });
+                setPhotoUrl("");
+                setSubject("");
+                setTeachingMode("");
+                setAvailableDays("");
+                setTimeSlot("");
+                setSessionStart("");
+                setTotalSlot("");
+                setHourlyFee("");
+                setInstitutionExperience("");
+                setLocation("");
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: data.error || "Failed to add tutor.",
+                    icon: "error",
+                    confirmButtonColor: "#4f46e5"
+                });
+            }
         } catch (error) {
-            console.error(error);
-            toast.error("Something went wrong ❌");
+            console.error("Error creating tutor:", error);
+            Swal.fire({
+                title: "Error",
+                text: "Something went wrong. Please try again.",
+                icon: "error",
+                confirmButtonColor: "#4f46e5"
+            });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 via-white to-gray-100 py-14 px-4">
+        <PrivateRoute>
+            <div className="min-h-screen bg-gradient-to-br from-indigo-50/40 via-white to-blue-50/40 dark:from-gray-950 dark:via-gray-900 dark:to-slate-950 py-12 px-4 transition-colors duration-250">
+                <div className="max-w-4xl mx-auto space-y-8">
+                    {/* Header */}
+                    <div>
+                        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
+                            Add Tutor Profile
+                        </h1>
+                        <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
+                            Create a detailed professional tutor profile to start accepting booking requests.
+                        </p>
+                    </div>
 
-            <div className="max-w-6xl mx-auto space-y-10">
+                    {/* Card container */}
+                    <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-150 dark:border-gray-800 shadow-xl p-8 md:p-10 transition-colors duration-250">
+                        <form onSubmit={handleSubmit} className="space-y-8">
+                            
+                            {/* Section 1: Tutor Identity */}
+                            <div className="space-y-5">
+                                <h2 className="text-lg font-bold text-gray-855 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-3 flex items-center gap-2">
+                                    <FaGraduationCap className="text-indigo-500" />
+                                    Tutor Identity
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Name */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Tutor Name</label>
+                                        <div className="relative flex items-center">
+                                            <FaUser className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="e.g. John Doe"
+                                                value={tutorName}
+                                                onChange={(e) => setTutorName(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                {/* Header */}
-                <div>
-                    <h1 className="text-4xl font-bold text-gray-900">
-                        Add Tutor
-                    </h1>
-                    <p className="text-gray-500 mt-2">
-                        Create and manage tutor profiles professionally.
-                    </p>
-                </div>
+                                    {/* Photo URL */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Photo URL</label>
+                                        <div className="relative flex items-center">
+                                            <FaLink className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="url"
+                                                required
+                                                placeholder="https://example.com/tutor.jpg"
+                                                value={photoUrl}
+                                                onChange={(e) => setPhotoUrl(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                {/* Card */}
-                <div className="bg-white/80 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl p-6 md:p-12">
+                                    {/* Subject Dropdown */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Subject / Category</label>
+                                        <div className="relative flex items-center">
+                                            <FaBook className="absolute left-3.5 text-gray-400" />
+                                            <select
+                                                required
+                                                value={subject}
+                                                onChange={(e) => setSubject(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white appearance-none cursor-pointer"
+                                            >
+                                                <option value="" disabled>Select Subject</option>
+                                                {["Mathematics", "Physics", "Chemistry", "Biology", "ICT", "English", "Bangla", "Social Science", "Commerce"].map((sub) => (
+                                                    <option key={sub} value={sub}>{sub}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
 
-                    <form onSubmit={onSubmit} className="space-y-12">
-
-                        {/* ================= TUTOR BASIC INFO ================= */}
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold border-b pb-3">
-                                Tutor Information
-                            </h2>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                                {/* Tutor Name */}
-                                <TextField name="tutorName" isRequired>
-                                    <Label>Tutor Name</Label>
-                                    <Input placeholder="John Doe" className="rounded-xl h-12" />
-                                    <FieldError />
-                                </TextField>
-
-                                {/* Tutor Photo */}
-                                <TextField name="photoUrl" isRequired>
-                                    <Label>Photo URL (imgbb / postimage)</Label>
-                                    <Input
-                                        type="url"
-                                        placeholder="https://i.ibb.co/example.jpg"
-                                        className="rounded-xl h-12"
-                                    />
-                                    <FieldError />
-                                </TextField>
-
-                                {/* Subject */}
-                                <Select name="subject" isRequired placeholder="Select Subject">
-                                    <Label>Subject / Category</Label>
-
-                                    <Select.Trigger className="rounded-xl h-12">
-                                        <Select.Value />
-                                        <Select.Indicator />
-                                    </Select.Trigger>
-
-                                    <Select.Popover>
-                                        <ListBox>
-                                            {[
-                                                "Mathematics",
-                                                "Physics",
-                                                "Chemistry",
-                                                "Biology",
-                                                "ICT",
-                                                "English",
-                                                "Bangla",
-                                            ].map((item) => (
-                                                <ListBox.Item key={item} id={item}>
-                                                    {item}
-                                                    <ListBox.ItemIndicator />
-                                                </ListBox.Item>
-                                            ))}
-                                        </ListBox>
-                                    </Select.Popover>
-                                </Select>
-
-                                {/* Teaching Mode */}
-                                <Select name="teachingMode" isRequired placeholder="Select Mode">
-                                    <Label>Teaching Mode</Label>
-
-                                    <Select.Trigger className="rounded-xl h-12">
-                                        <Select.Value />
-                                        <Select.Indicator />
-                                    </Select.Trigger>
-
-                                    <Select.Popover>
-                                        <ListBox>
-                                            {["Online", "Offline", "Both"].map((mode) => (
-                                                <ListBox.Item key={mode} id={mode}>
-                                                    {mode}
-                                                    <ListBox.ItemIndicator />
-                                                </ListBox.Item>
-                                            ))}
-                                        </ListBox>
-                                    </Select.Popover>
-                                </Select>
-
+                                    {/* Teaching Mode Dropdown */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teaching Mode</label>
+                                        <div className="relative flex items-center">
+                                            <FaBriefcase className="absolute left-3.5 text-gray-400" />
+                                            <select
+                                                required
+                                                value={teachingMode}
+                                                onChange={(e) => setTeachingMode(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white appearance-none cursor-pointer"
+                                            >
+                                                <option value="" disabled>Select Mode</option>
+                                                {["Online", "Offline", "Both"].map((mode) => (
+                                                    <option key={mode} value={mode}>{mode}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
+                            {/* Section 2: Availability & Schedules */}
+                            <div className="space-y-5">
+                                <h2 className="text-lg font-bold text-gray-855 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-3 flex items-center gap-2">
+                                    <FaCalendar className="text-emerald-500" />
+                                    Availability & Slots
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Available Days */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Available Days</label>
+                                        <div className="relative flex items-center">
+                                            <FaCalendar className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="e.g. Sat, Mon, Wed"
+                                                value={availableDays}
+                                                onChange={(e) => setAvailableDays(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-805 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                        {/* ================= AVAILABILITY ================= */}
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold border-b pb-3">
-                                Availability
-                            </h2>
+                                    {/* Time Slot */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Available Time Slot</label>
+                                        <div className="relative flex items-center">
+                                            <FaClock className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="e.g. 4:00 PM - 6:00 PM"
+                                                value={timeSlot}
+                                                onChange={(e) => setTimeSlot(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    {/* Session Start Date */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Session Start Date</label>
+                                        <input
+                                            type="date"
+                                            required
+                                            value={sessionStart}
+                                            onChange={(e) => setSessionStart(e.target.value)}
+                                            className="w-full px-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white cursor-pointer"
+                                        />
+                                    </div>
 
-                                <TextField name="availableDays" isRequired>
-                                    <Label>Available Days</Label>
-                                    <Input
-                                        placeholder="Sun - Thu"
-                                        className="rounded-xl h-12"
-                                    />
-                                    <FieldError />
-                                </TextField>
-
-                                <TextField name="timeSlot" isRequired>
-                                    <Label>Available Time Slot</Label>
-                                    <Input
-                                        placeholder="5:00 PM - 8:00 PM"
-                                        className="rounded-xl h-12"
-                                    />
-                                    <FieldError />
-                                </TextField>
-
-                                <TextField name="sessionStart" type="date" isRequired>
-                                    <Label>Session Start Date</Label>
-                                    <Input type="date" className="rounded-xl h-12" />
-                                    <FieldError />
-                                </TextField>
-
-                                <TextField name="totalSlot" type="number" isRequired>
-                                    <Label>Total Slot</Label>
-                                    <Input type="number" placeholder="20" className="rounded-xl h-12" />
-                                    <FieldError />
-                                </TextField>
-
+                                    {/* Total Slots */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Total Slot Limit</label>
+                                        <input
+                                            type="number"
+                                            required
+                                            min="1"
+                                            placeholder="e.g. 10"
+                                            value={totalSlot}
+                                            onChange={(e) => setTotalSlot(e.target.value)}
+                                            className="w-full px-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-805 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
+                            {/* Section 3: Professional Experience & Fees */}
+                            <div className="space-y-5">
+                                <h2 className="text-lg font-bold text-gray-855 dark:text-gray-200 border-b border-gray-100 dark:border-gray-800 pb-3 flex items-center gap-2">
+                                    <FaDollarSign className="text-amber-500" />
+                                    Tuition Details & Experience
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Hourly Fee */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Hourly Fee (BDT)</label>
+                                        <div className="relative flex items-center">
+                                            <FaDollarSign className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="number"
+                                                required
+                                                min="0"
+                                                placeholder="e.g. 600"
+                                                value={hourlyFee}
+                                                onChange={(e) => setHourlyFee(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                        {/* ================= PRICING ================= */}
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold border-b pb-3">
-                                Pricing
-                            </h2>
+                                    {/* Location */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Location (City / Area)</label>
+                                        <div className="relative flex items-center">
+                                            <FaMapMarkerAlt className="absolute left-3.5 text-gray-400" />
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="e.g. Mirpur, Dhaka"
+                                                value={location}
+                                                onChange={(e) => setLocation(e.target.value)}
+                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                            />
+                                        </div>
+                                    </div>
 
-                            <TextField name="hourlyFee" type="number" isRequired>
-                                <Label>Hourly Fee (BDT)</Label>
-                                <Input
-                                    type="number"
-                                    placeholder="500"
-                                    className="rounded-xl h-12"
-                                />
-                                <FieldError />
-                            </TextField>
-                        </div>
+                                    {/* Institution Experience */}
+                                    <div className="space-y-1.5 md:col-span-2">
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Institution & Teaching Experience</label>
+                                        <textarea
+                                            required
+                                            rows="4"
+                                            placeholder="Describe your current educational institution, past tutoring experience, or relevant academic achievements..."
+                                            value={institutionExperience}
+                                            onChange={(e) => setInstitutionExperience(e.target.value)}
+                                            className="w-full p-4 bg-gray-55 dark:bg-gray-855 border border-gray-200 dark:border-gray-800 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition text-sm text-gray-900 dark:text-white"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
 
-
-                        {/* ================= PROFESSIONAL DETAILS ================= */}
-                        <div className="space-y-6">
-                            <h2 className="text-lg font-semibold border-b pb-3">
-                                Professional Details
-                            </h2>
-
-                            <TextField name="institutionExperience" isRequired>
-                                <Label>Institution & Experience</Label>
-                                <TextArea
-                                    placeholder="Dhaka University | 5 Years Teaching Experience"
-                                    className="rounded-2xl min-h-32"
-                                />
-                                <FieldError />
-                            </TextField>
-
-                            <TextField name="location" isRequired>
-                                <Label>Location (Area / City)</Label>
-                                <Input
-                                    placeholder="Dhanmondi, Dhaka"
-                                    className="rounded-xl h-12"
-                                />
-                                <FieldError />
-                            </TextField>
-                        </div>
-
-
-                        {/* ================= SUBMIT ================= */}
-                        <div className="flex justify-center md:justify-end pt-6 border-t">
-                            <Button
-                                type="submit"
-                                className="px-10 py-6 text-lg font-semibold rounded-xl
-            bg-gradient-to-r from-indigo-500 to-blue-600
-            hover:from-indigo-600 hover:to-blue-700
-            text-white shadow-lg transition-all duration-300"
-                            >
-                                Add Tutor
-                            </Button>
-                        </div>
-
-                    </form>
+                            {/* Submit Button */}
+                            <div className="flex justify-end pt-4 border-t border-gray-100 dark:border-gray-800">
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-655 hover:to-blue-700 text-white rounded-2xl text-sm font-bold shadow-md shadow-indigo-100 dark:shadow-none disabled:opacity-50 transition"
+                                >
+                                    {isSubmitting ? "Adding Profile..." : "Add Tutor Profile"}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </PrivateRoute>
     );
-};
-
-export default AddTutorPage;
+}

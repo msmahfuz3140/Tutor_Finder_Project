@@ -6,23 +6,24 @@ import {
   FaGithub,
   FaLinkedin,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 import { Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-gray-950 to-gray-900 text-gray-300 mt-20">
+    <footer className="bg-gradient-to-b from-gray-950 to-gray-900 text-gray-300 border-t border-gray-900 mt-20">
 
       <div className="max-w-7xl mx-auto px-6 py-14 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
 
         <div>
           <h2 className="text-2xl font-bold text-white mb-4">
-            Tutors-Finder
+            MediQueue
           </h2>
 
           <p className="text-sm leading-relaxed text-gray-400">
-            Connect with expert tutors anytime, anywhere.
-            Learn smarter, grow faster, and achieve your academic goals with ease.
+            Connect with expert tutors anytime, online or offline.
+            Learn smarter, manage your booking slots, and achieve your learning goals.
           </p>
         </div>
 
@@ -33,8 +34,8 @@ const Footer = () => {
 
           <ul className="space-y-3 text-sm">
             {[
-              { name: "Find Tutor", link: "/tutor" },
-              { name: "Become Tutor", link: "/add-tutor" },
+              { name: "Find Tutors", link: "/tutor" },
+              { name: "Become a Tutor", link: "/add-tutor" },
               { name: "My Tutors", link: "/my-tutor" },
               { name: "Booked Sessions", link: "/booked-session" },
             ].map((item, i) => (
@@ -58,18 +59,18 @@ const Footer = () => {
           <ul className="space-y-4 text-sm text-gray-400">
 
             <li className="flex items-center gap-3 hover:text-white transition">
-              <MapPin size={18} className="text-blue-500" />
+              <MapPin size={18} className="text-indigo-500" />
               Mymensingh, Bangladesh
             </li>
 
             <li className="flex items-center gap-3 hover:text-white transition">
-              <Phone size={18} className="text-green-500" />
+              <Phone size={18} className="text-emerald-500" />
               +880 1234-567890
             </li>
 
             <li className="flex items-center gap-3 hover:text-white transition">
-              <Mail size={18} className="text-red-500" />
-              support@tutorsfinder.com
+              <Mail size={18} className="text-rose-500" />
+              support@mediqueue.com
             </li>
 
           </ul>
@@ -84,21 +85,28 @@ const Footer = () => {
 
             <a
               href="#"
-              className="p-3 bg-gray-800 rounded-full hover:bg-blue-600 hover:scale-110 transition duration-300"
+              className="p-3 bg-gray-800 rounded-full hover:bg-blue-600 hover:scale-110 transition duration-300 text-white"
             >
               <FaFacebook />
             </a>
 
             <a
               href="#"
-              className="p-3 bg-gray-800 rounded-full hover:bg-gray-600 hover:scale-110 transition duration-300"
+              className="p-3 bg-gray-800 rounded-full hover:bg-black hover:scale-110 transition duration-300 text-white"
+            >
+              <FaXTwitter />
+            </a>
+
+            <a
+              href="#"
+              className="p-3 bg-gray-800 rounded-full hover:bg-gray-700 hover:scale-110 transition duration-300 text-white"
             >
               <FaGithub />
             </a>
 
             <a
               href="#"
-              className="p-3 bg-gray-800 rounded-full hover:bg-blue-500 hover:scale-110 transition duration-300"
+              className="p-3 bg-gray-800 rounded-full hover:bg-blue-500 hover:scale-110 transition duration-300 text-white"
             >
               <FaLinkedin />
             </a>
@@ -111,7 +119,7 @@ const Footer = () => {
 
       <div className="border-t border-gray-800 text-center py-5 text-sm text-gray-500">
         © {new Date().getFullYear()}{" "}
-        <span className="text-white font-medium">Tutors-Finder</span>.
+        <span className="text-white font-medium">MediQueue</span>.
         All Rights Reserved.
       </div>
     </footer>

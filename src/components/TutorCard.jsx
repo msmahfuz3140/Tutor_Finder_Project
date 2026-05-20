@@ -79,7 +79,7 @@ const TutorCard = ({ tutor }) => {
                     flex items-center justify-center gap-2 transition-all duration-300 shadow-sm
                     group-hover:shadow-indigo-200 dark:group-hover:shadow-none"
                     >
-                        <span>View Details</span>
+                        <span>Book Session</span>
                         <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
                 </Link>
