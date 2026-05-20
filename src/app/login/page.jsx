@@ -6,6 +6,7 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { FaGoogle, FaEnvelope, FaLock } from "react-icons/fa";
+import authClient from "@/lib/auth-client";
 
 function LoginFormContent() {
     const { signIn, signInWithGoogle } = useAuth();
@@ -152,7 +153,7 @@ function LoginFormContent() {
 
                 {/* Register Navigation */}
                 <p className="text-sm text-center text-gray-500 dark:text-gray-400 mt-8">
-                    Don't have an account?{" "}
+                    Don t have an account?{" "}
                     <Link
                         href={`/register?redirect=${encodeURIComponent(redirectUrl)}`}
                         className="font-bold text-indigo-600 hover:text-indigo-750 dark:text-indigo-400"
