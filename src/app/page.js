@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import SliderBanner from "@/components/SliderBanner";
 import TutorCard from "@/components/TutorCard";
+import { API_BASE_URL } from "@/lib/api";
 import { FaUserTie, FaCheckCircle, FaLaptopCode } from "react-icons/fa";
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
 
         const fetchTutors = async () => {
             try {
-                const res = await fetch("https://tutor-finder-project-server.vercel.app/tutors?limit=6", {
+                const res = await fetch(`${API_BASE_URL}/tutors?limit=6`, {
                     cache: "no-store",
                 });
                 const data = await res.json();

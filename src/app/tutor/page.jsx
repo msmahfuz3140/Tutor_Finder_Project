@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import TutorCard from "@/components/TutorCard";
+import { API_BASE_URL } from "@/lib/api";
 import { Search, Calendar, RefreshCw } from "lucide-react";
 
 export default function TutorsPage() {
@@ -14,7 +15,7 @@ export default function TutorsPage() {
     const fetchTutors = async (searchVal = "", startVal = "", endVal = "") => {
         setLoading(true);
         try {
-            let url = `https://tutor-finder-project-server.vercel.app/tutors?`;
+            let url = `${API_BASE_URL}/tutors?`;
             const params = [];
             if (searchVal) params.push(`search=${encodeURIComponent(searchVal)}`);
             if (startVal) params.push(`startDate=${encodeURIComponent(startVal)}`);

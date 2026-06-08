@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import authClient from "../lib/auth-client";
+import { API_BASE_URL } from "@/lib/api";
 
 const AuthContext = createContext(null);
 
@@ -114,7 +115,7 @@ export const AuthProvider = ({ children }) => {
 
         // Fetch JWT from backend and store in client
         try {
-          const response = await fetch("https://tutor-finder-project-server.vercel.app/jwt", {
+          const response = await fetch(`${API_BASE_URL}/jwt`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json"

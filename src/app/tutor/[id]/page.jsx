@@ -3,6 +3,7 @@
 import { use, useState, useEffect } from "react";
 import TutorDetailsCard from "@/components/TutorDetailsCard";
 import PrivateRoute from "@/components/PrivateRoute";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function TutorsDetailsPage({ params }) {
     const { id } = use(params);
@@ -14,7 +15,7 @@ export default function TutorsDetailsPage({ params }) {
 
         const fetchTutor = async () => {
             try {
-                const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${id}`, {
+                const res = await fetch(`${API_BASE_URL}/tutors/${id}`, {
                     cache: "no-store"
                 });
                 if (res.ok) {

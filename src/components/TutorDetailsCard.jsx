@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function TutorDetailsCard({ tutor, id }) {
     const [isBookModalOpen, setIsBookModalOpen] = useState(false);
@@ -94,7 +95,7 @@ export default function TutorDetailsCard({ tutor, id }) {
                 bookingStatus: "pending"
             };
 
-            const res = await fetch("https://tutor-finder-project-server.vercel.app/bookings", {
+            const res = await fetch(`${API_BASE_URL}/bookings`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

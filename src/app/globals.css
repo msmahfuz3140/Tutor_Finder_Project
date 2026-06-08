@@ -20,3 +20,45 @@
   --color-indigo-655: #4f46e5;
   --color-indigo-755: #4338ca;
 }
+
+/* Light mode body */
+.light body,
+body.light,
+:root.light body {
+  color: #111827;
+  background-color: #ffffff;
+}
+
+/* Dark mode body */
+.dark body,
+body.dark,
+:root.dark body {
+  color: #f3f4f6;
+  background-color: #030712;
+}
+
+/* Ensure text contrast in dark mode for common patterns */
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: #d1d5db !important; /* gray-300 - much better contrast on dark bg */
+}
+
+.dark .text-gray-600,
+.dark .text-gray-450 {
+  color: #e5e7eb !important; /* gray-200 - better contrast */
+}
+
+.dark .text-gray-700 {
+  color: #f3f4f6 !important; /* gray-100 */
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  color: #f3f4f6 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #6b7280 !important;
+}

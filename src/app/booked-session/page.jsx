@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "@/lib/api";
 import { Calendar, Trash2, BookOpen, AlertCircle, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
@@ -17,7 +18,7 @@ export default function BookedSessionsPage() {
         setLoading(true);
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch(`https://tutor-finder-project-server.vercel.app/bookings?email=${encodeURIComponent(user.email)}`, {
+            const res = await fetch(`${API_BASE_URL}/bookings?email=${encodeURIComponent(user.email)}`, {
                 headers: {
                     "authorization": `Bearer ${token}`
                 },
@@ -59,7 +60,7 @@ export default function BookedSessionsPage() {
             if (result.isConfirmed) {
                 const token = localStorage.getItem("token");
                 try {
-                    const res = await fetch(`https://tutor-finder-project-server.vercel.app/bookings/${bookingId}`, {
+                    const res = await fetch(`${API_BASE_URL}/bookings/${bookingId}`, {
                         method: "PATCH",
                         headers: {
                             "Content-Type": "application/json",

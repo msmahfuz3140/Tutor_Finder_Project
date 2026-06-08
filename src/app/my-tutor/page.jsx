@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "@/lib/api";
 import { Edit3, Trash2, Plus, X, GraduationCap, Calendar, Clock, BookOpen, DollarSign, MapPin, Briefcase, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,7 +36,7 @@ export default function MyTutorsPage() {
         if (!user?.email) return;
         setLoading(true);
         try {
-            const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors?email=${encodeURIComponent(user.email)}`, {
+            const res = await fetch(`${API_BASE_URL}/tutors?email=${encodeURIComponent(user.email)}`, {
                 cache: "no-store"
             });
             if (res.ok) {
@@ -100,7 +101,7 @@ export default function MyTutorsPage() {
         };
 
         try {
-            const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${selectedTutor._id || selectedTutor.id}`, {
+            const res = await fetch(`${API_BASE_URL}/tutors/${selectedTutor._id || selectedTutor.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -164,7 +165,7 @@ export default function MyTutorsPage() {
             if (result.isConfirmed) {
                 const token = localStorage.getItem("token");
                 try {
-                    const res = await fetch(`https://tutor-finder-project-server.vercel.app/tutors/${tutorId}`, {
+                    const res = await fetch(`${API_BASE_URL}/tutors/${tutorId}`, {
                         method: "DELETE",
                         headers: {
                             "authorization": `Bearer ${token}`

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import PrivateRoute from "@/components/PrivateRoute";
 import Swal from "sweetalert2";
+import { API_BASE_URL } from "@/lib/api";
 import { FaUser, FaLink, FaBook, FaCalendar, FaClock, FaDollarSign, FaMapMarkerAlt, FaBriefcase, FaGraduationCap } from "react-icons/fa";
 
 export default function AddTutorPage() {
@@ -61,7 +62,7 @@ export default function AddTutorPage() {
 
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("https://tutor-finder-project-server.vercel.app/tutors", {
+            const res = await fetch(`${API_BASE_URL}/tutors`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
