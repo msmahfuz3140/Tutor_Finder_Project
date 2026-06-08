@@ -3,7 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
 
 // Initialize MongoClient
-const client = new MongoClient(process.env.MONGODB_URI);
+const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db("tutors-finder");
 
 export const auth = betterAuth({

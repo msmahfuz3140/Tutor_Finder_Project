@@ -6,7 +6,6 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { FaGoogle, FaEnvelope, FaLock, FaUser, FaLink } from "react-icons/fa";
-import authClient from "@/lib/auth-client";
 
 function RegisterFormContent() {
     const { createUser, updateUserProfile, signInWithGoogle } = useAuth();
@@ -54,11 +53,15 @@ function RegisterFormContent() {
             await updateUserProfile(name, photoUrl);
 
             Swal.fire({
-                title: "Registered!",
-                text: "Registration Successful. Please Login.",
+                title: "Welcome!",
+                text: "Registration Successful",
                 icon: "success",
-                confirmButtonColor: "#4f46e5"
+                timer: 2000,
+                showConfirmButton: false,
+                toast: true,
+                position: "top-end"
             });
+            router.push(redirectUrl);
 
         } catch (error) {
             console.error(error);

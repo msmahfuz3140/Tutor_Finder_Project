@@ -23,6 +23,17 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       throw new Error(error.message || "Registration failed");
     }
+    // Immediately set user from signup response (better-auth auto-logs in after signup)
+    if (data?.user) {
+      setUser({
+        uid: data.user.id,
+        id: data.user.id,
+        displayName: data.user.name,
+        email: data.user.email,
+        photoURL: data.user.image,
+        ...data.user
+      });
+    }
     return data;
   };
 
@@ -33,14 +44,25 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       throw new Error(error.message || "Login failed");
     }
+    // Immediately set user from login response
+    if (data?.user) {
+      setUser({
+        uid: data.user.id,
+        id: data.user.id,
+        displayName: data.user.name,
+        email: data.user.email,
+        photoURL: data.user.image,
+        ...data.user
+      });
+    }
     return data;
   };
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = async (redirectTo) => {
     setLoading(true);
     const { data, error } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: window.location.origin
+      callbackURL: redirectTo || window.location.href
     });
     if (error) {
       setLoading(false);
@@ -56,6 +78,8 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       throw new Error(error.message || "Logout failed");
     }
+    setUser(null);
+    localStorage.removeItem("token");
   };
 
   const updateUserProfile = async (name, photoURL) => {
@@ -73,6 +97,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (isPending) return;
+
     const syncSession = async () => {
       if (session) {
         // Map Better Auth session properties to Firebase equivalents so other pages don't break
@@ -109,11 +135,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     };
 
-    if (!isPending) {
-      syncSession();
-    } else {
-      setLoading(true);
-    }
+    syncSession();
   }, [session, isPending]);
 
   const authInfo = {

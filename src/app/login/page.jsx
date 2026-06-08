@@ -6,10 +6,9 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { FaGoogle, FaEnvelope, FaLock } from "react-icons/fa";
-import authClient from "@/lib/auth-client";
 
 function LoginFormContent() {
-    const { signIn, signInWithGoogle } = useAuth();
+    const { user, signIn, signInWithGoogle } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirectUrl = searchParams.get("redirect") || "/";
@@ -20,7 +19,11 @@ function LoginFormContent() {
 
     useEffect(() => {
         document.title = "Login | MediQueue";
-    }, []);
+        // If user is already logged in, redirect immediately
+        if (user) {
+            router.push(redirectUrl);
+        }
+    }, [user, router, redirectUrl]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -36,7 +39,7 @@ function LoginFormContent() {
                 toast: true,
                 position: "top-end"
             });
-
+            router.push(redirectUrl);
         } catch (error) {
             console.error(error);
             Swal.fire({
