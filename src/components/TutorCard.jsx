@@ -38,7 +38,7 @@ const TutorCard = ({ tutor }) => {
                 {/* CONTENT SECTION */}
                 <div className="p-5 space-y-4">
                     <div>
-                        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        <h2 className="text-lg font-bold text-blue-800 dark:text-blue-100 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                             {tutor?.tutorName || "Unknown Tutor"}
                         </h2>
                     </div>

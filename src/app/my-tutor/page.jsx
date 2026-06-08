@@ -291,7 +291,7 @@ export default function MyTutorsPage() {
                                                     {tutor.hourlyFee} BDT
                                                 </td>
                                                 <td className="py-4 px-6">
-                                                    <span className={`font-semibold ${Number(tutor.totalSlot) === 0 ? 'text-red-500' : 'text-gray-700 dark:text-gray-300'}`}>
+                                                    <span className={`font-semibold ${Number(tutor.totalSlot) === 0 ? 'text-red-500' : 'text-gray-900 dark:text-gray-300'}`}>
                                                         {tutor.totalSlot}
                                                     </span>
                                                 </td>
@@ -301,7 +301,7 @@ export default function MyTutorsPage() {
                                                 <td className="py-4 px-6 text-right space-x-2 whitespace-nowrap">
                                                     <button
                                                         onClick={() => handleOpenUpdateModal(tutor)}
-                                                        className="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100 hover:bg-indigo-50 dark:bg-gray-800 dark:hover:bg-indigo-950/30 text-gray-600 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition"
+                                                        className="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100 hover:bg-indigo-50 dark:bg-gray-800 dark:hover:bg-indigo-950/30 text-blue-700 hover:text-indigo-600 dark:text-gray-300 dark:hover:text-indigo-400 transition"
                                                         title="Edit Profile"
                                                     >
                                                         <Edit3 size={16} />

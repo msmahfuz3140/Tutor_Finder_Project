@@ -200,7 +200,7 @@ export default function TutorDetailsCard({ tutor, id }) {
                     )}
 
                     <div className="bg-white dark:bg-gray-900 border border-gray-150 dark:border-gray-800/80 rounded-3xl p-6 md:p-8 shadow-sm">
-                        <h2 className="text-xl font-bold mb-4">
+                        <h2 className="text-xl font-bold mb-4 text-[#4f46e5]">
                             Overview & Experience
                         </h2>
                         <p className="text-gray-500 dark:text-gray-400 leading-relaxed text-sm">
@@ -210,7 +210,7 @@ export default function TutorDetailsCard({ tutor, id }) {
 
                     {/* SPECIFICATIONS */}
                     <div className="bg-white dark:bg-gray-900 border border-gray-150 dark:border-gray-800/80 rounded-3xl p-6 md:p-8 shadow-sm">
-                        <h2 className="text-xl font-bold mb-6">Tutor Specifications</h2>
+                        <h2 className="text-xl font-bold mb-6 text-[#4f46e5]">Tutor Specifications</h2>
                         <div className="grid sm:grid-cols-2 gap-4">
                             <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-850 rounded-2xl border border-gray-100 dark:border-gray-800/40">
                                 <BookOpen className="text-indigo-500 shrink-0" size={20} />
