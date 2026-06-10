@@ -6,6 +6,7 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { FaGoogle, FaEnvelope, FaLock, FaUser, FaLink } from "react-icons/fa";
+import authClient from "@/lib/auth-client";
 
 function RegisterFormContent() {
     const { createUser, updateUserProfile, signInWithGoogle } = useAuth();
