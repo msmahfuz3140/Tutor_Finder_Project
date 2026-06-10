@@ -55,7 +55,9 @@ function LoginFormContent() {
 
     const handleSignInWithGoogle = async () => {
         try {
-            await signInWithGoogle();
+            await authClient.signIn.social({
+                provider: "google",
+            });
         } catch (error) {
             console.error("Error signing in with Google:", error);
             Swal.fire({
@@ -154,7 +156,7 @@ function LoginFormContent() {
                     className="w-full flex items-center justify-center gap-3 border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-850 py-3 rounded-2xl transition font-semibold text-sm text-gray-700 dark:text-gray-300 shadow-sm"
                 >
                     <FaGoogle className="text-red-500" />
-                    Google Account
+                    <span className="text-white">Google Account</span>
                 </button>
 
                 {/* Register Navigation */}
