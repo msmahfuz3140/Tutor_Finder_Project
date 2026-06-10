@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Sync user state and loading state with Better Auth session hook
   const { data: session, isPending } = authClient.useSession();
 
-  const createUser = async (email, password) => {
+  const createUser = async (email, password, name, photoUrl) => {
     setLoading(true);
     const { data, error } = await authClient.signUp.email({
       email,
@@ -24,17 +24,27 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       throw new Error(error.message || "Registration failed");
     }
-    // Immediately set user from signup response (better-auth auto-logs in after signup)
-    if (data?.user) {
-      setUser({
-        uid: data.user.id,
-        id: data.user.id,
-        displayName: data.user.name,
-        email: data.user.email,
-        photoURL: data.user.image,
-        ...data.user
+    // Update profile before signing out (user is still authenticated)
+    if (name) {
+      const { error: updateError } = await authClient.updateUser({
+        name,
+        image: photoUrl || null
       });
+      if (updateError) {
+        setLoading(false);
+        throw new Error(updateError.message || "Failed to update profile");
+      }
     }
+    // Sign out immediately to prevent auto-login after registration
+    // User should login manually from the login page
+    const { error: signOutError } = await authClient.signOut();
+    if (signOutError) {
+      setLoading(false);
+      throw new Error(signOutError.message || "Failed to process registration");
+    }
+    setUser(null);
+    localStorage.removeItem("token");
+    setLoading(false);
     return data;
   };
 

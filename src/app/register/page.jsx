@@ -49,19 +49,18 @@ function RegisterFormContent() {
 
         setIsSubmitting(true);
         try {
-            await createUser(email, password);
-            await updateUserProfile(name, photoUrl);
+            await createUser(email, password, name, photoUrl);
 
             Swal.fire({
-                title: "Welcome!",
-                text: "Registration Successful",
+                title: "Registration Successful!",
+                text: "Please login to your account",
                 icon: "success",
                 timer: 2000,
                 showConfirmButton: false,
                 toast: true,
                 position: "top-end"
             });
-            router.push(redirectUrl);
+            router.push("/login");
 
         } catch (error) {
             console.error(error);
