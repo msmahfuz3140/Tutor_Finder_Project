@@ -78,9 +78,7 @@ function RegisterFormContent() {
 
     const handleSignInWithGoogle = async () => {
         try {
-            await authClient.signIn.social({
-                provider: "google",
-            });
+            await signInWithGoogle(redirectUrl);
         } catch (error) {
             console.error("Error signing in with Google:", error);
             setErrorMsg(error.message || "Failed to sign in with Google");
